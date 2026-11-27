@@ -22,7 +22,10 @@ def birth_date_validator(date):
 
 class Specialty(models.Model):
     name = models.CharField(max_length=50)
-
+    class Meta():
+        verbose_name="specialty"
+        verbose_name_plural="specialities"
+        
     def __str__(self):
         return self.name
 
@@ -34,9 +37,21 @@ class Doctor(User):
     )
     phone = models.CharField(max_length=8, unique=True, validators=[number_validator])
     specialties = models.ManyToManyField(Specialty, related_name='doctors')
+    def __str__(self):
+                return f"Dr. {self.first_name} {self.last_name}"
+    class Meta():
+            verbose_name="Doctor"
+            verbose_name_plural="Doctors"
+            
 
 
 class Patient(User):
     national_id = models.CharField(max_length=8, unique=True, validators=[number_validator])
     phone = models.CharField(max_length=8, unique=True, validators=[number_validator])
     birth_date = models.DateField(blank=True, null=True, validators=[birth_date_validator])
+    def __str__(self):
+                    return f"P. {self.first_name} {self.last_name}"
+
+    class Meta():
+                verbose_name="Patient"
+                verbose_name_plural="Patients"
